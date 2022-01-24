@@ -82,7 +82,7 @@ public class Paciente {
 	
 	private String getIniciales() {
 		
-		String patron = "([a-z])";//Selecciona todas las letras minúsculas.
+		String patron = "([a-záéíóú])";//Selecciona todas las letras minúsculas incluyendo las vocales con tildes,
 		
 		Pattern minusculas = Pattern.compile(patron);//Se compila el patron creado.
 		Matcher compararMinusculas = minusculas.matcher(getNombre());//Compara el nombre y lo divide en grupos en función de la ER.
@@ -152,6 +152,6 @@ public class Paciente {
 	}
 	@Override
 	public String toString() {
-		return String.format("Nombre = %s (%s), DNI = %s, Teléfono = %s", nombre, getIniciales(), dni, telefono);
+		return String.format("Paciente: Nombre = %s (%s), DNI = %s, Teléfono = %s", nombre, getIniciales(), dni, telefono);
 	}
 }	
