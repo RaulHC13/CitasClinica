@@ -13,7 +13,7 @@ public class Consola {
 	private Consola() {
 			
 	}
-	public static void mostrarMenu() {
+	public static void mostrarMenu() { //Muestra este menu.
 		System.out.println("\n\n           Menu Inicial");
 		System.out.println("==================================");
 		System.out.println("1. Insertar una cita.");
@@ -35,7 +35,7 @@ public class Consola {
 			
 		} while (codigoOpcion < 0 || codigoOpcion > 5);
 		
-		switch(codigoOpcion) {
+		switch(codigoOpcion) {//Dependiendo de la opcion elegida devuelve un valor u otro.
 		
 		case 1:
 			opcion = Opciones.INSERTAR_CITA;
@@ -60,7 +60,7 @@ public class Consola {
 		
 		return opcion;
 	}
-	public static Cita leerCita() {
+	public static Cita leerCita() { //Utiliza dos métodos para crear una Cita
 		
 		Paciente pacienteCita = leerPaciente();
 		LocalDateTime fechaHoraCita = leerFechaHora();
@@ -74,9 +74,9 @@ public class Consola {
 		 String nombre, dni, telefono;
 		 boolean bucle = true;
 		 
-		 while(bucle) {
+		 while(bucle) {//Bucle para que en caso de error, el try catch maneje la excepción y pueda volver a pedir valores, es un bucle infinito.
 		 
-		 try {
+		 try {//Maneja la excepción que da en caso de que los valores no sean válidos.
 		 
 		 System.out.println("Introduce el nombre del paciente: ");
 		 nombre = Entrada.cadena();
