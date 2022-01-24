@@ -69,7 +69,7 @@ public class Cita {
 
 	@Override
 	public String toString() {
-		return String.format("Cita Paciente:%n[%s]%n[Fecha y Hora= %s]",paciente, fechaHora);
+		return String.format("Cita:%n[%s]%n[Fecha y Hora = %s]",paciente, fechaHora);
 	}
 	
 	

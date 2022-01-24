@@ -1,10 +1,11 @@
 package org.iesalandalus.programacion.citasclinica.vista;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.time.format.DateTimeParseException;
 
 import org.iesalandalus.programacion.citasclinica.modelo.Cita;
+import org.iesalandalus.programacion.citasclinica.modelo.Paciente;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 public class Consola {
@@ -12,7 +13,6 @@ public class Consola {
 	private Consola() {
 			
 	}
-	
 	public static void mostrarMenu() {
 		System.out.println("\n\n           Menu Inicial");
 		System.out.println("==================================");
@@ -60,36 +60,91 @@ public class Consola {
 		
 		return opcion;
 	}
-	
+	public static Cita leerCita() {
+		
+		Paciente pacienteCita = leerPaciente();
+		LocalDateTime fechaHoraCita = leerFechaHora();
+		
+		return new Cita(pacienteCita, fechaHoraCita);
+	}
+	public static Paciente leerPaciente() {
+		
+		 Paciente pacienteLeer = null;
+		 
+		 String nombre, dni, telefono;
+		 boolean bucle = true;
+		 
+		 while(bucle) {
+		 
+		 try {
+		 
+		 System.out.println("Introduce el nombre del paciente: ");
+		 nombre = Entrada.cadena();
+		 
+		 System.out.println("Introduce el DNI del paciente: ");
+		 dni = Entrada.cadena();
+		 
+		 System.out.println("Introduce el telefono del paciente: ");
+		 telefono = Entrada.cadena();
+		 
+		 bucle = false;
+		 
+		pacienteLeer = new Paciente(nombre,dni,telefono);
+		
+		 } catch (Exception e) {
+			 System.out.println("ERROR: Algunos de los datos no son válidos.");
+			 bucle = true;
+		 }
+		 }
+		return pacienteLeer;
+	}
 	
 	public static LocalDateTime leerFechaHora() {
 		
-		LocalDateTime fechaHora;
+		LocalDateTime fechaHora = null;
 		
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern(Cita.FORMATO_FECHA_HORA);
-		Pattern patronHora = Pattern.compile(Cita.FORMATO_FECHA_HORA);
-		Matcher comparador;
-		String entradaFecha;
+		boolean bucle = true;
 		
-		do {
-			
-			System.out.printf("Introduce una fecha (Formato: %s)%n", Cita.FORMATO_FECHA_HORA);
-			entradaFecha = Entrada.cadena();
-			
-			comparador = patronHora.matcher(entradaFecha);
-			
-		} while(comparador.matches());
+		while (bucle) {
+		try {
 		
-		fechaHora = LocalDateTime.parse(entradaFecha, formato);
+		System.out.println("Introduce una fecha y hora (Formato: dd/MM/yyyy HH:mm)");
+		String fechaHoraEntrada = Entrada.cadena();
 		
-		return fechaHora;
+		bucle = false;
+
+		fechaHora = LocalDateTime.parse(fechaHoraEntrada, formato);
+			
+		} catch (DateTimeParseException e) {
+			System.out.println("No es una fecha y hora válida o el formato no es correcto.");
+			bucle = true;
+		} 
+		} 
+			return fechaHora;
 	}
 	
-	public static void main(String[] args) {
-		/*mostrarMenu();
-		System.out.println(elegirOpcion());*/
-		System.out.println(leerFechaHora());
+	public static LocalDate leerFecha() {
+		LocalDate fecha = null;
 		
-	}
-	
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		boolean bucle = true;
+		
+		while (bucle) {
+		try {
+		
+		System.out.println("Introduce una fecha (Formato: dd/MM/yyyy)");
+		String fechaEntrada = Entrada.cadena();
+		
+		bucle = false;
+
+		fecha = LocalDate.parse(fechaEntrada, formato);
+			
+		} catch (DateTimeParseException e) {
+			System.out.println("No es una fecha válida o el formato no es correcto.");
+			bucle = true;
+		} 
+		}
+		return fecha;
+	}	
 }
