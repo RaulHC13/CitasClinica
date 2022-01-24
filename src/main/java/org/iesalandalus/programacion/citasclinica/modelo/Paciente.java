@@ -38,6 +38,10 @@ public class Paciente {
 		if(nombre == null) {
 			throw new NullPointerException("ERROR: El nombre de un paciente no puede ser nulo o vacío.");
 		}
+		
+		if(nombre.isEmpty()) {
+			throw new NullPointerException("ERROR: El nombre de un paciente no puede ser nulo o vacío.");
+		}
 		this.nombre = formateaNombre(nombre);
 	}
 	
@@ -151,6 +155,6 @@ public class Paciente {
 	}
 	@Override
 	public String toString() {
-		return String.format("Nombre= %s (%s), DNI=%s, Teléfono=%s", nombre, getIniciales(), dni, telefono);
+		return String.format("Nombre = %s (%s), DNI = %s, Teléfono = %s", nombre, getIniciales(), dni, telefono);
 	}
 }	
