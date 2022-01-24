@@ -14,7 +14,7 @@ public class Citas {
 	public Citas(int capacidad) {
 		
 		if(capacidad <= 0)
-			throw new IllegalArgumentException("ERROR: La capacidad");
+			throw new IllegalArgumentException("ERROR: La capacidad debe ser mayor que cero.");
 		this.capacidad = getCapacidad();
 		coleccionCitas = new Cita[capacidad];
 		this.tamano = 0;
@@ -25,16 +25,16 @@ public class Citas {
 		return coleccionCitas;
 	}
 	
-	public Cita[] getCitas(LocalDate fecha) {
+	public Cita[] getCitas(LocalDate fechaHora) {
 		
 		Cita[] citasFechaHora = new Cita[tamano];
 				
-		if (fecha.equals(null)) {
-			throw new NullPointerException("ERROR: No se puede copiar una fech vacia o nula");
+		if (fechaHora.equals(null)) {
+			throw new NullPointerException("ERROR: No se puede copiar una fecha vacía o nula.");
 		}
 		int j = 0;
-		LocalDateTime comienzoDia = LocalDateTime.of(fecha.getYear(), fecha.getMonth(), fecha.getDayOfMonth(), j, j);
-		LocalDateTime finDia = LocalDateTime.of(fecha.getYear(), fecha.getMonth(), fecha.getDayOfMonth(), j, j);
+		LocalDateTime comienzoDia = LocalDateTime.of(fechaHora.getYear(), fechaHora.getMonth(), fechaHora.getDayOfMonth(), 0, 0);
+		LocalDateTime finDia = LocalDateTime.of(fechaHora.getYear(), fechaHora.getMonth(), fechaHora.getDayOfMonth(), 23, 59);
 		
 		for(int i = 0; i < tamano; i++) {
 			
@@ -60,7 +60,7 @@ public class Citas {
 	
 	public void insertar(Cita cita) throws OperationNotSupportedException {
 		
-		if (cita.equals(null)) {
+		if (cita == null) {
 			throw new NullPointerException("ERROR: No se puede insertar una cita nula.");
 		}
 		if (capacidadSuperada(tamano)) {
@@ -71,6 +71,8 @@ public class Citas {
 		
 		if (tamanoSuperado(indice)) {
 			coleccionCitas[tamano] = new Cita(cita);
+		} else {
+			throw new OperationNotSupportedException("ERROR: No se aceptan más citas.");
 		}
 		tamano++;
 	}
@@ -112,7 +114,7 @@ public class Citas {
 	
 	public Cita buscar(Cita cita) {
 		
-		if(cita.equals(null)) {
+		if(cita == null) {
 			throw new NullPointerException("ERROR: No se puede copiar una cita nula.");
 		}
 		int indice = buscarIndice(cita);
@@ -126,20 +128,20 @@ public class Citas {
 	public void borrar(Cita cita) throws OperationNotSupportedException {
 		int indice;
 		
-		if (cita.equals(null)) {
-			throw new IllegalArgumentException("ERROR: No se puede copiar una cita nula.");
+		if (cita == null) {
+			throw new NullPointerException("ERROR: No se puede copiar una cita nula.");
 		}
 		indice = buscarIndice(cita);
 		
 		if (tamanoSuperado(indice)) {
-			throw new OperationNotSupportedException("asd");
+			throw new OperationNotSupportedException("ERROR: No existe ninguna cita para esa fecha y hora.");
 		}
 		desplazarUnaPosicionHaciaIzquierda(indice);
 		tamano--;
 	}
 	private void desplazarUnaPosicionHaciaIzquierda(int indice) {
 		
-		int i; //Revisar
+		int i; 
 		
 		for (i = indice; i < coleccionCitas.length - 1; i++) {
 			coleccionCitas[i] = coleccionCitas[i+1];
