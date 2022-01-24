@@ -13,8 +13,9 @@ public class Consola {
 	private Consola() {
 			
 	}
+	
 	public static void mostrarMenu() { //Muestra este menu.
-		System.out.println("\n\n           Menu Inicial");
+		System.out.println("               Menu Inicial");
 		System.out.println("==================================");
 		System.out.println("1. Insertar una cita.");
 		System.out.println("2. Buscar una cita.");
@@ -26,7 +27,7 @@ public class Consola {
 	
 	public static Opciones elegirOpcion() {
 		int codigoOpcion;
-		Opciones opcion = Opciones.SALIR;
+		Opciones opcion = null;
 		
 		do {
 			
@@ -36,6 +37,10 @@ public class Consola {
 		} while (codigoOpcion < 0 || codigoOpcion > 5);
 		
 		switch(codigoOpcion) {//Dependiendo de la opcion elegida devuelve un valor u otro.
+		
+		case 0:
+			opcion = Opciones.SALIR;
+			break;
 		
 		case 1:
 			opcion = Opciones.INSERTAR_CITA;
@@ -123,7 +128,6 @@ public class Consola {
 		} 
 			return fechaHora;
 	}
-	
 	public static LocalDate leerFecha() {
 		LocalDate fecha = null;
 		
