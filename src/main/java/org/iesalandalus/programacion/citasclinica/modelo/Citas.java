@@ -33,8 +33,8 @@ public class Citas {
 			throw new NullPointerException("ERROR: No se puede copiar una fecha vacía o nula.");
 		}
 		int j = 0;
-		LocalDateTime comienzoDia = LocalDateTime.of(fechaHora.getYear(), fechaHora.getMonth(), fechaHora.getDayOfMonth(), 0, 0);
-		LocalDateTime finDia = LocalDateTime.of(fechaHora.getYear(), fechaHora.getMonth(), fechaHora.getDayOfMonth(), 23, 59);
+		LocalDateTime comienzoDia = LocalDateTime.of(fechaHora.getDayOfMonth(), fechaHora.getMonth(), fechaHora.getYear(), 0, 0);
+		LocalDateTime finDia = LocalDateTime.of(fechaHora.getDayOfMonth(), fechaHora.getMonth(), fechaHora.getYear(), 23, 59);
 		
 		for(int i = 0; i < tamano; i++) {
 			
