@@ -62,8 +62,8 @@ public class Consola {
 			opcion = Opciones.MOSTRAR_CITAS_DIA;
 			break;
 		}
-		
 		return opcion;
+		//return Opciones.values()[codigoOpcion]; Se puede utilizar .values para crear un array y devolver la posicion.
 	}
 	public static Cita leerCita() { //Utiliza dos métodos para crear una Cita
 		
@@ -108,47 +108,31 @@ public class Consola {
 		
 		LocalDateTime fechaHora = null;
 		
-		DateTimeFormatter formato = DateTimeFormatter.ofPattern(Cita.FORMATO_FECHA_HORA);
-		boolean bucle = true;
-		
-		while (bucle) {
-		try {
-		
-		System.out.println("Introduce una fecha y hora (Formato: dd/MM/yyyy HH:mm)");
-		String fechaHoraEntrada = Entrada.cadena();
-		
-		bucle = false;
-
-		fechaHora = LocalDateTime.parse(fechaHoraEntrada, formato);
-			
-		} catch (DateTimeParseException e) {
-			System.out.println("No es una fecha y hora válida o el formato no es correcto.");
-			bucle = true;
-		} 
-		} 
+		do {
+			System.out.println("Introduce una fecha (Formato: dd/MM/yyyy)");
+			try {
+				fechaHora = LocalDateTime.parse(Entrada.cadena(), DateTimeFormatter.ofPattern(Cita.FORMATO_FECHA_HORA));
+			}
+			catch (DateTimeParseException e) {
+				fechaHora = null;
+			}
+		}while (fechaHora == null);
 			return fechaHora;
 	}
 	public static LocalDate leerFecha() {
+		
 		LocalDate fecha = null;
+	
+		do {
+			System.out.println("Introduce una fecha (Formato: dd/MM/yyyy)");
+			try {
+				fecha = LocalDate.parse(Entrada.cadena(), DateTimeFormatter.ofPattern(Cita.FORMATO_FECHA_HORA));
+			}
+			catch (DateTimeParseException e) {
+				fecha = null;
+			}
+		}while (fecha == null);
 		
-		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		boolean bucle = true;
-		
-		while (bucle) {
-		try {
-		
-		System.out.println("Introduce una fecha (Formato: dd/MM/yyyy)");
-		String fechaEntrada = Entrada.cadena();
-		
-		bucle = false;
-
-		fecha = LocalDate.parse(fechaEntrada, formato);
-			
-		} catch (DateTimeParseException e) {
-			System.out.println("No es una fecha válida o el formato no es correcto.");
-			bucle = true;
-		} 
-		}
 		return fecha;
 	}	
 }

@@ -1,6 +1,7 @@
 package org.iesalandalus.programacion.citasclinica.modelo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Cita {
@@ -32,7 +33,7 @@ public class Cita {
 		if (paciente == null) {
 			throw new NullPointerException("ERROR: El paciente de una cita no puede ser nulo.");
 		}
-		this.paciente = paciente;
+		this.paciente = new Paciente(paciente); //this.paciente = paciente; Esta mal por que copia el objeto original, hay que crear uno nuevo.
 	}
 	
 	public Paciente getPaciente() {
@@ -40,7 +41,7 @@ public class Cita {
 	}
 	
 	public void setFechaHora(LocalDateTime fechaHora) {
-		if (fechaHora == null) {
+		if (fechaHora == null) {	
 			throw new NullPointerException("ERROR: La fecha y hora de una cita no puede ser nula.");
 		}
 		this.fechaHora = fechaHora;
@@ -69,7 +70,8 @@ public class Cita {
 
 	@Override
 	public String toString() {
-		return String.format("Cita:%n[%s]%n[Fecha y Hora = %s]",paciente, fechaHora);
+		return String.format("Cita:%n[%s]%n[Fecha y Hora = %s]",paciente, fechaHora.format(DateTimeFormatter.ofPattern(FORMATO_FECHA_HORA)));
+		//return String.format("Cita:%n[%s]%n[Fecha y Hora = %s]",paciente, fechaHora); Hay que utilizar un format para darle formato a la fecha.
 	}
 	
 	

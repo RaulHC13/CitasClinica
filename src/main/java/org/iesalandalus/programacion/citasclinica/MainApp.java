@@ -4,12 +4,14 @@ import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.citasclinica.modelo.Cita;
 import org.iesalandalus.programacion.citasclinica.modelo.Citas;
+import org.iesalandalus.programacion.citasclinica.modelo.Paciente;
 import org.iesalandalus.programacion.citasclinica.vista.Consola;
 import org.iesalandalus.programacion.citasclinica.vista.Opciones;
 
 public class MainApp {
 	
 	final static private int NUM_MAX_CITAS = 10;
+	private static Citas citasClinica = new Citas(NUM_MAX_CITAS);
 	
 	public MainApp() {
 		
@@ -55,36 +57,87 @@ public class MainApp {
 		}
 	}
 	
-	private static void insertarCita() throws OperationNotSupportedException {
-		
-		Cita cita = new Cita(Consola.leerCita());
+	private static void insertarCita(){
 		
 		try {
-			Citas citas = new Citas(0);
-			citas.insertar(cita);
-		} catch (Exception e) {
+			
+			citasClinica.insertar(Consola.leerCita());
+			System.out.println("Cita insertada");
 		}
-		System.out.println(cita);
+		catch(IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	
 	}
 	
 	private static void buscarCita() {
 		
-		Consola.leerFechaHora();
+		try {
+			Paciente paciente = new Paciente("Paciente test", "91708653V","681345216");
+			Cita cita = new Cita(paciente, Consola.leerFechaHora());
+			cita = citasClinica.buscar(cita);
 		
+		if (cita != null) {
+			System.out.printf("La cita es: %s",cita);
+		} else {
+			System.out.println("No se ha encontrado ninguna cita.");
+		}
+		}
+		catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
+			
 	}
 	
 	private static void borrarCita() {
 		
-		Consola.leerFechaHora();
+		try {
+			Paciente paciente = new Paciente("Paciente test", "91708653V","681345216");
+			Cita cita = new Cita(paciente, Consola.leerFechaHora());
+			citasClinica.borrar(cita);
+			System.out.println("Cita borrada");
+		}
+		catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
 		
 	}
 	
 	private static void mostrarCitasDia() {
 		
-		Consola.leerFecha();	
+		Cita[] citasDia	 = citasClinica.getCitas(Consola.leerFecha());
+		int citasMonstradas = 0;
+		
+		for (int i = 0; i < citasDia.length; i++) {
+			if(citasDia[i] != null) {
+				System.out.println(citasDia[i]);
+				citasMonstradas++;
+			}
+		}
+		if (citasMonstradas == 0) {
+			System.out.println("No existen citas para ese dia");
+		} else  {
+			System.out.println("");
+		}
 	}
 
 	private static void mostrarCitas() {
 		
+		Cita[] citas = citasClinica.getCitas();
+		int citasMonstradas = 0;
+		
+		for (int i = 0; i < citas.length; i++) {
+			if(citas[i] != null) {
+				System.out.println(citas[i]);
+				citasMonstradas++;
+			}
+		}
+		if (citasMonstradas == 0) {
+			System.out.println("No existen citas para ese dia");
+		} else  {
+			System.out.println("");
+		
 	}
+}
 }

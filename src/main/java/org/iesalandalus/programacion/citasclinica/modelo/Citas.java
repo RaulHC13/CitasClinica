@@ -3,6 +3,7 @@ package org.iesalandalus.programacion.citasclinica.modelo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
 import javax.naming.OperationNotSupportedException;
 
 public class Citas {
@@ -15,13 +16,21 @@ public class Citas {
 		
 		if(capacidad <= 0)
 			throw new IllegalArgumentException("ERROR: La capacidad debe ser mayor que cero.");
-		this.capacidad = getCapacidad();
-		coleccionCitas = new Cita[capacidad];
+		this.capacidad = capacidad;
 		this.tamano = 0;
+		coleccionCitas = new Cita[capacidad];
+		
 	}
 	
 	public Cita[] getCitas() {
 		
+		Cita[] copiaCitas = new Cita[capacidad];
+		for (int i = 0; !tamanoSuperado(i); i++) {
+			if (coleccionCitas[i] != null) {
+				copiaCitas[i] = new Cita(coleccionCitas[i]);
+			}
+		}//Se hace una copia profunda para evitar aliasing.
+ 		
 		return coleccionCitas;
 	}
 	
@@ -29,7 +38,7 @@ public class Citas {
 		
 		Cita[] citasFechaHora = new Cita[tamano];
 				
-		if (fechaHora.equals(null)) {
+		if (fechaHora == null) {
 			throw new NullPointerException("ERROR: No se puede copiar una fecha vacía o nula.");
 		}
 		int j = 0;
@@ -82,7 +91,7 @@ public class Citas {
 		int indice = tamano + 1;
 		
 		for (int i = 0; i < tamano&&!buscar; i++) {
-			if (coleccionCitas[i] == cita) {
+			if (coleccionCitas[i].equals(cita)) {
 				buscar = true;
 				indice = i;
 			}
@@ -91,11 +100,11 @@ public class Citas {
 	}
 	
 	private boolean tamanoSuperado(int superaTamano) {
-		boolean tamanoSuperado = false;;
+		boolean tamanoSuperado = false;
 		
-		if (tamano > superaTamano) {
+		if (superaTamano > tamano) {
 			 tamanoSuperado = true;
-		} else if (tamano <= superaTamano) {
+		} else if (superaTamano <= tamano) {
 			 tamanoSuperado = false;
 		}
 		return tamanoSuperado;
@@ -104,9 +113,9 @@ public class Citas {
 	private boolean capacidadSuperada(int superaCapacidad) {
 		boolean capacidadSuperada = false;;
 		
-		if (capacidad > superaCapacidad) {
+		if (superaCapacidad > capacidad) {
 			capacidadSuperada = true;
-		} else if (capacidad <= superaCapacidad) {
+		} else if (superaCapacidad <= capacidad) {
 			capacidadSuperada = false;
 		}
 		return capacidadSuperada;
